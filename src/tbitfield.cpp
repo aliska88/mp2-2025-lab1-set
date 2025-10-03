@@ -40,9 +40,7 @@ TELEM TBitField::GetMemMask(const int n) const {
   return (TELEM)1 << (n % (sizeof(TELEM) * 8));
 }
 
-int TBitField::GetLength(void) const {
-  return BitLen;
-}
+int TBitField::GetLength(void) const { return BitLen; }
 
 void TBitField::SetBit(const int n) {
   if (n < 0 || n >= BitLen)
@@ -89,9 +87,7 @@ int TBitField::operator==(const TBitField &bf) const {
   return 1;
 }
 
-int TBitField::operator!=(const TBitField &bf) const {
-  return !(*this == bf);
-}
+int TBitField::operator!=(const TBitField &bf) const { return !(*this == bf); }
 
 TBitField TBitField::operator|(const TBitField &bf) {
   int maxBitLen = std::max(BitLen, bf.BitLen);

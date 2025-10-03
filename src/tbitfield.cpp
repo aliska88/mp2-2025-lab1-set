@@ -122,28 +122,24 @@ int TBitField::operator!=(const TBitField &bf) const  // сравнение
 
 TBitField TBitField::operator|(const TBitField &bf)  // операция "или"
 {
-  int maxBitLen = std::max(BitLen, bf.BitLen);
-  TBitField result(maxBitLen);
-  const TBitField *longer;
-  const TBitField *shorter;
-
-  if (MemLen > bf.MemLen) {
-    longer = this;
-    shorter = &bf;
-  } else {
-    longer = &bf;
-    shorter = this;
-  }
-
-  for (int i = 0; i < shorter->MemLen; i++) {
-    result.pMem[i] = shorter->pMem[i] | longer->pMem[i];
-  }
-
-  for (int i = shorter->MemLen; i < longer->MemLen; i++) {
-    result.pMem[i] = longer->pMem[i];
-  }
-
-  return result;
+    int maxBitLen = std::max(BitLen, bf.BitLen);
+    TBitField result(maxBitLen);
+    int minMemLen = std::min(MemLen, bf.MemLen);
+    for (int i = 0; i < minMemLen; i++) {
+        result.pMem[i] = pMem[i] | bf.pMem[i];
+    }
+    const TBitField *longer;
+    if (MemLen > bf.MemLen) {
+        longer = this;
+    } else if (bf.MemLen > MemLen) {
+        longer = &bf;
+    } else { 
+        return result; 
+    }
+    for (int i = minMemLen; i < longer->MemLen; i++) {
+        result.pMem[i] = longer->pMem[i];
+    }
+    return result;
 }
 
 TBitField TBitField::operator&(const TBitField &bf)  // операция "и"

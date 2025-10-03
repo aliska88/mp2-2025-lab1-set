@@ -126,8 +126,14 @@ TBitField TBitField::operator&(const TBitField &bf) {
 TBitField TBitField::operator~(void) {
   TBitField result(BitLen);
 
-  for (int i = 0; i < MemLen; i++)
-    result.pMem[i] = ~pMem[i];
+  for (int i = 0; i < MemLen; i++) result.pMem[i] = ~pMem[i];
+
+  int tailBits = BitLen % (sizeof(TELEM) * 8);
+
+  if (tailBits != 0) {
+    TELEM clearMask = ((TELEM)1 << tailBits) - 1;
+    result.pMem[MemLen - 1] &= clearMask;
+  }
 
   return result;
 }

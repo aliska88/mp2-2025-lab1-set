@@ -157,3 +157,10 @@ istream &operator>>(istream &istr, TBitField &bf) {
 
   return istr;
 }
+
+ostream& operator<<(ostream& ostr, const TBitField& bf) {
+  for (int i = 0; i < bf.BitLen; i++)
+    ostr << (bf.GetBit(i) ? '1' : '0');
+
+  return ostr;
+}
